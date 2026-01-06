@@ -7,7 +7,8 @@
 
 (use-modules (gnu home)
              (gnu packages)
-             (gnu services))
+             (gnu services)
+             (gnu home services shells))
 
 (home-environment
   ;; Abaixo está a lista de pacotes que aparecerão no seu
@@ -28,5 +29,16 @@
 
   ;; Abaixo está a lista de serviços Home. Para procurar por serviços
   ;; disponíveis, execute 'guix home search KEYWORD' em um terminal.
-  (services
-   (append (list) %base-home-services)))
+(services
+   (append (list
+            ;; Variáveis de ambiente pro GNOME não morrer
+            (simple-service 'gnome-env
+                           home-bash-service-type
+                           (home-bash-extension
+                            (environment-variables
+                             '(("GSK_RENDERER" . "gl")
+                               ("MUTTER_DEBUG_FORCE_KMS_MODE" . "simple")
+                               ("CLUTTER_PAINT" . "disable-clipped-redraws:disable-culling")
+                               ("GNOME_SHELL_SLOWDOWN_FACTOR" . "1")
+                               ("WEBKIT_DISABLE_COMPOSITING_MODE" . "1"))))))
+           %base-home-services)))

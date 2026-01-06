@@ -40,8 +40,7 @@
   ;; services, run 'guix system search KEYWORD' in a terminal.
 (services
   (append (list
-            (service gnome-desktop-service-type)
-            (service elogind-service-type))
+            (service gnome-desktop-service-type))
           %desktop-services))
 
 (bootloader (bootloader-configuration
